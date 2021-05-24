@@ -16,7 +16,7 @@
 - cd into the directory
 
 ```bash
-cd ~/user-validation-api/
+cd ~/project-directory/
 ```
 
 - install packages
