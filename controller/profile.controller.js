@@ -20,6 +20,7 @@ export const getProfile = asyncHandler(async (req, res, next) => {
  */
 export const postProfile = asyncHandler(async (req, res, next) => {
   const { ID, name, email, phone, password } = req.body;
+  const filePath = req.file.path;
 
   const newProfile = await User.create({
     ID,
@@ -27,6 +28,7 @@ export const postProfile = asyncHandler(async (req, res, next) => {
     email,
     phone,
     password,
+    profileImage: filePath,
   });
 
   if (newProfile) {
@@ -44,6 +46,9 @@ export const postProfile = asyncHandler(async (req, res, next) => {
 export const updateProfile = asyncHandler(async (req, res, next) => {
   const { id: _id } = req.params;
   const userInfo = req.body;
+  const filePath = req.file.path;
+
+  const updatedUserinfo = { ...userInfo, profileImage: filePath };
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
     res.status(404);
@@ -52,7 +57,7 @@ export const updateProfile = asyncHandler(async (req, res, next) => {
 
   const updatedUser = await User.findByIdAndUpdate(
     _id,
-    { ...userInfo, _id },
+    { ...updatedUserinfo, _id },
     {
       new: true,
     }
